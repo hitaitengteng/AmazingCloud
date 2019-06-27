@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <!--实时数据库IP地址-->
+    <property>
+        <name>pSpace.address</name>
+        <value>localhost</value>
+    </property>
+    <!--实时数据库端口-->
+    <property>
+        <name>pSpace.port</name>
+        <value>8889</value>
+    </property>
+    <!--实时数据库用户名-->
+    <property>
+        <name>pSpace.username</name>
+        <value>admin</value>
+    </property>
+    <!--实时数据库密码-->
+    <property>
+        <name>pSpace.password</name>
+        <value>admin888</value>
+    </property>
+    <!--kafka地址-->
+    <property>
+        <name>bootstrap.servers</name>
+        <value>59.69.101.206:49092,59.69.101.206:49093,59.69.101.206:49094</value>
+    </property>
+    <!--kafka主题-->
+    <property>
+        <name>kafka.topic</name>
+        <value>DCS-TOPIC</value>
+    </property>
+    <!--是否设置程序自启动-->
+    <property>
+        <name>self.start</name>
+        <value>true</value>
+    </property>
+    <!--设置java.library.path的路径-->
+    <property>
+        <name>java.library.path</name>
+        <value>D:/jdk/jre/bin</value>
+    </property>
+</configuration>

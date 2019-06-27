@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="base-config" />
+        <module name="base-discovery" />
+        <module name="service-analyst" />
+        <module name="service-collector" />
+        <module name="service-dataQuery" />
+        <module name="service-preprocessor" />
+        <module name="service-zuul" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="AmazingCloud" target="1.8" />
+      <module name="base-config" target="1.8" />
+      <module name="base-discovery" target="1.8" />
+      <module name="service-analyst" target="1.8" />
+      <module name="service-collector" target="1.8" />
+      <module name="service-dataQuery" target="1.8" />
+      <module name="service-preprocessor" target="1.8" />
+      <module name="service-zuul" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

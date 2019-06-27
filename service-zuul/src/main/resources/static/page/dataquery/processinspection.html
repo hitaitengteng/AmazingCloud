@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>原丝工艺巡查</title>
+    <!--layui-->
+    <link rel="stylesheet" href="/common/layui/2.1.5/css/layui.css">
+    <link rel="stylesheet" href="/custom/css/Y/Ycontent/processinspection.css">
+</head>
+<body>
+<div class="layui-body" id="layui-layout">
+    <!--======================页面选项卡=============================-->
+    <div class="whut_tab">
+        <div class="layui-tab layui-tab-card" id="larry-tab">
+            <ul class="layui-tab-title" id="Y">
+                <li class="layui-this" value="1" >原液</li>
+                <li value="2" >机头</li>
+                <li value="3" >水洗水牵</li>
+                <li value="4" >上油烘干</li>
+                <li value="5" >蒸牵</li>
+                <li value="6" >成品丝</li>
+            </ul>
+            <!--======================选项卡对应的内容========================-->
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show" id="layout-main-body">
+                    <iframe name="iframe" width="100%" height="100%" class="body-iframe"
+                            src="Ycontent/content1.html" frameborder="0" data-id="Ycontent/content1.html" seamless=""></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--layui-->
+<script src="/common/Jquery/2.1.1/jquery.js"></script>
+<script src="/common/layui/2.1.5/layui.js"></script>
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+        var element = layui.element;
+    });
+
+    /*判断选项卡的value来加载一个页面，不然echarts图只在第一个加载页面有内容*/
+    $("ul#Y").on("click","li",function(){
+        var value = $(this).attr('value');
+        console.log(typeof value);
+        switch (value) {
+            case "1": var url = "Ycontent/content1.html";
+                var iframe = "<iframe class='body-iframe' name='iframe"+ value +"' width='100%' height='100%' src='"+ url +"' frameborder='0' data-id='"+ url +"' seamless></iframe>";
+                $("#layout-main-body").find("iframe.body-iframe").hide().parents("#layout-main-body").append(iframe);
+                break;
+            case "2":   var url = "Ycontent/content2.html";
+                var iframe = "<iframe class='body-iframe' name='iframe"+ value +"' width='100%' height='100%' src='"+ url +"' frameborder='0' data-id='"+ url +"' seamless></iframe>";
+                $("#layout-main-body").find("iframe.body-iframe").hide().parents("#layout-main-body").append(iframe);
+                break;
+            case "3":   var url = "Ycontent/content3.html";
+                var iframe = "<iframe class='body-iframe' name='iframe"+ value +"' width='100%' height='100%' src='"+ url +"' frameborder='0' data-id='"+ url +"' seamless></iframe>";
+                $("#layout-main-body").find("iframe.body-iframe").hide().parents("#layout-main-body").append(iframe);
+                break;
+            case "4":   var url = "Ycontent/content4.html";
+                var iframe = "<iframe class='body-iframe' name='iframe"+ value +"' width='100%' height='100%' src='"+ url +"' frameborder='0' data-id='"+ url +"' seamless></iframe>";
+                $("#layout-main-body").find("iframe.body-iframe").hide().parents("#layout-main-body").append(iframe);
+                break;
+            case "5":   var url = "Ycontent/content5.html";
+                var iframe = "<iframe class='body-iframe' name='iframe"+ value +"' width='100%' height='100%' src='"+ url +"' frameborder='0' data-id='"+ url +"' seamless></iframe>";
+                $("#layout-main-body").find("iframe.body-iframe").hide().parents("#layout-main-body").append(iframe);
+                break;
+            case "6":   var url = "Ycontent/content6.html";
+                var iframe = "<iframe class='body-iframe' name='iframe"+ value +"' width='100%' height='100%' src='"+ url +"' frameborder='0' data-id='"+ url +"' seamless></iframe>";
+                $("#layout-main-body").find("iframe.body-iframe").hide().parents("#layout-main-body").append(iframe);
+                break;
+        }
+    });
+</script>
+</body>
+</html>

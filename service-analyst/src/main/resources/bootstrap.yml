@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: service-analyst
+  cloud:
+    config:
+      enabled: false
+      discovery:
+        enabled: false
+        service-id: CONFIG
+eureka:
+  instance:
+    non-secure-port: ${server.port:8050}
+  client:
+    service-url:
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:8000}/eureka/

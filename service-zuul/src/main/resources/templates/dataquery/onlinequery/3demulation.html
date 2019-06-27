@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--引入easyui的css-->
+    <link rel="stylesheet" href="/common/jquery-easyui-1.5.3/themes/default/easyui.css">
+    <link rel="stylesheet" href="/common/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/common/jquery-easyui-1.5.3/themes/icon.css">
+    <!--自定义-->
+    <link rel="stylesheet" href="/custom/css/home/main.css">    <title>纺丝3D模型</title>
+</head>
+<body class="easyui-layout" id="mainBox">
+    <div data-options="region:'north',split:true" style="height: 80px;background-color: rgba(255, 255, 255, 0.9);" class="mainTop">
+        <div class="topLogin"><img src="/custom/img/home/bglogo.png"/> <div class="topLongRight">连云港中复神鹰碳纤维云平台</div></div>
+        <div class="topText">
+        </div>
+        <div href="javascript:void(0)" id="mb" class="easyui-menubutton topMean"
+             data-options="menu:'#mm',iconCls:'icon-admin'">管理员帐号</div>
+        <div id="mm" >
+            <div data-options="iconCls:'icon-redo'"><a href="javascript:void(0) " onclick="backHome()">返回</a> </div>
+            <div data-options="iconCls:'icon-cancel'"><a href="javascript:void(0)" onclick="saveCanle()"> 注销</a> </div>
+        </div>
+    </div>
+    <div data-options="region:'south',split:true" style="height:40px;" class="footStyle">
+    2018 &copy;中复神鹰碳纤维有限责任公司,版权所有
+</div>
+    <div data-options="region:'center'" style="padding:5px;background:#eee;">
+    <div id="con" data-options="narrow:'true'">
+        <div style="width: 100%;height: 950px;">
+            <iframe frameborder="0" width="100%" height="100%" name="frameName" scrolling="auto"
+                    id="ifDiv"
+                    src="http://www.thingjs.com/guide/sampleindex.html?name=/uploads/wechat/VGh1bmRlckZBUg==/final3Dscript.js?n=0.18628210821705604"></iframe>
+        </div>
+    </div>
+</div>
+    <!--引入js-->
+    <script type="text/javascript" src="/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+    <script src="/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+    <script>
+        function backHome() {
+            window.history.back();
+        }
+        function saveCanle() {
+            $.messager.confirm('注销确认','你是否注销用户？',function (data) {
+                if (data){
+                    $.ajax({
+                        url: "../../../requestquit",
+                        dataType: "text",//返回的数据类型json html等
+                        type: "get", //请求方式post get
+                        contentType:"application/json;charset=utf-8",
+                        success: function (result) {
+                            if(result==="SUCCESS"){
+                                window.location.href = "../../../quit";
+                            }else{
+                                alert(result);
+                            }
+                        },
+                        error: function () {
+                            alert("服务端未响应")
+                        }
+                    });
+                }
+            })
+        }
+    </script>
+</body>
+</html>

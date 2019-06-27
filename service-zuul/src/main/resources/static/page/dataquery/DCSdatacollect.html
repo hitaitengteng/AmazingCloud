@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>原丝工艺巡查</title>
+    <!--layui-->
+    <link rel="stylesheet" href="/common/layui/2.1.5/css/layui.css">
+    <link rel="stylesheet" href="/custom/css/Y/Ycontent/processinspection.css">
+    <!--easyui-->
+    <link rel="stylesheet" href="../../common/jquery-easyui-1.5.5.4/themes/gray/easyui.css">
+    <link rel="stylesheet" href="../../common/jquery-easyui-1.5.5.4/themes/icon.css">
+    </head>
+<body>
+<div class="layui-body" id="layui-layout" style="margin-bottom: 0px;overflow-y:hidden;">
+    <div class="row" style="text-align: center;">
+        <p style="font-family: 'Microsoft YaHei';">
+        <form id="updatecharts">
+        <div>
+            &nbsp;&nbsp;产线
+            <select id="rawsilk" name="rawsilk" style="width: 100px; height: 29px;" class="easyui-combobox form-control"
+                    data-options="required:true" >
+                <option value="Y03">原丝3号线</option>
+                <option value="Y05">原丝5号线</option>
+                <option value="Y06">原丝6号线</option>
+            </select>
+            &nbsp;&nbsp;工段
+            <select id="index" name="index" style="width: 100px; height: 29px;" class="easyui-combobox form-control">
+            </select>
+            &nbsp;&nbsp;内容
+            <input id="content" name="content" style="width: 100px; height: 29px;" class="easyui-textbox"/>
+            &nbsp;&nbsp;产线
+            <input id="index1" name="index1" style="width: 100px; height: 29px;" class="easyui-textbox"/>
+        </div>
+        <div>
+            &nbsp;&nbsp;内容
+            <input id="index2" name="index2" style="width: 100px; height: 29px;" class="easyui-textbox"/>
+            &nbsp;&nbsp;起始时间
+            <input id="startTime" name="startTime" style="width: 100px; height: 29px;" class="easyui-datetimebox"
+                   data-options="required:true" editable="false" value="new data()"/>
+            &nbsp;&nbsp;结束时间
+            <input id="endTime" name="endTime" style="width: 100px; height: 29px;" class="easyui-datetimebox"
+                   data-options="required:true" editable="false"/>
+        <button type="button" class="layui-btn" id="eq_select_equipment_instance_confirm"
+                onclick="getData()">查询
+        </button>
+        </div>
+        </form>
+        </p>
+    </div>
+    <!--======================页面选项卡=============================-->
+    <div class="whut_tab" style="height: 300px;border: 2px solid #e4e4e4;">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title" id="Y">
+                <li value="1" class="layui-this" ></li>
+            </ul>
+            <!--======================选项卡对应的内容========================-->
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show" id="layout-main-body" style="height:250px;width:100%;">
+                    <div class="foldline" id="foldline" style="height:260px;width:51.3%;float: left;border-right: 2px solid #e4e4e4"></div>
+                    <div id="histogrampic" style="height: 250px;width: 48.2%;float: left;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="whut_disk" id="gauge" style="height:250px;background:#ffffff;border: 2px solid #e4e4e4;border-top:1px;margin-top: 20px;">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title"style="text-align: left;">
+                <li class="layui-this" style="min-width: 45px;">转速</li>
+                <li style="min-width: 45px;">流量</li>
+                <li style="min-width: 45px;">压强</li>
+                <li style="min-width: 45px;">纺速</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div id="instrumentpanel0" style="height: 230px;width: 250px;float: left;left:10%"></div>
+                    <div id="instrumentpanel1" style="height: 230px;width: 250px;float: left;left:20%"></div>
+                    <div id="instrumentpanel2" style="height: 230px;width: 250px;float: left;left:30%"></div>
+                </div>
+                <div class="layui-tab-item">
+                    <div id="instrumentpanel3" style="height: 230px;width: 250px;float: left;left:10%"></div>
+                    <div id="instrumentpanel4" style="height: 230px;width: 250px;float: left;left:10%"></div>
+                    <div id="instrumentpanel5" style="height: 230px;width: 250px;float: left;left:10%"></div>
+                    <div id="instrumentpanel6" style="height: 230px;width: 250px;float: left;left:10%"></div>
+                </div>
+                <div class="layui-tab-item">
+                    <div id="instrumentpanel7" style="height: 230px;width: 250px;float: left;left:10%"></div>
+                    <div id="instrumentpanel8" style="height: 230px;width: 250px;float: left;left:20%"></div>
+                    <div id="instrumentpanel9" style="height: 230px;width: 250px;float: left;left:30%"></div>
+                </div>
+                <div class="layui-tab-item">
+                    <div id="instrumentpanel10" style="height: 230px;width: 250px;float: left;left:40%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script src="/common/Jquery/2.1.1/jquery.js"></script>
+<!--easyui-->
+<script src="../../common/jquery-easyui-1.5.5.4/jquery.easyui.min.js"></script>
+<script src="../../common/jquery-easyui-1.5.5.4/locale/easyui-lang-zh_CN.js"></script>
+<!--layui-->
+<script src="/common/layui/2.1.5/layui.js"></script>
+<script src="/common/echarts/js/echarts.js"></script>
+<script src="/common/echarts/js/echarts.min.js"></script>
+<script src="/custom/js/dataquery/dcsdrawpic.js"></script>
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+        var element = layui.element;
+    });
+
+    $("ul#Y").on("click","li",function() {
+        var value = $(this).attr('value');
+        var guage=document.getElementById("gauge");
+        switch (value) {
+            case "1": guage.style.display="block";break;
+            case "2": guage.style.display="none";break;
+        }
+        });
+</script>
+</body>
+</html>

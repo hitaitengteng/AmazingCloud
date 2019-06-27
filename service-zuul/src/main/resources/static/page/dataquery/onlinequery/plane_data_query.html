@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>2D平面数据查询</title>
+    <!--引入easyui的css-->
+    <link rel="stylesheet" href="/common/jquery-easyui-1.5.3/themes/default/easyui.css">
+    <link rel="stylesheet" href="/common/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/common/jquery-easyui-1.5.3/themes/icon.css">
+    <style>
+        img {
+            width: auto;
+            max-width: 100%;
+            max-height: 100%;
+            height: 490px;
+            /* transform:scale(2);*///设置缩放比例
+        }
+        a{
+            text-decoration: none;
+
+        }
+
+        dd{
+            height:30px;
+            margin-left: 0px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        dd img{
+            float:left;
+        }
+
+        dd a{
+            margin-left: 5px;
+            line-height:32px;     /*注意这行代码，惹是不写，得不到想要的结果哦*/
+            vertical-align:middle;
+            text-align:left;
+        }
+
+        .rotateimg{
+            transform: rotate(90deg);
+            -ms-transform: rotate(90deg); /* IE 9 */
+            -moz-transform: rotate(90deg); /* Firefox */
+            -webkit-transform: rotate(90deg); /* Safari and Chrome */
+            -o-transform: rotate(90deg); /* Opera */
+
+        }
+        .datagrid-header{
+            border: none;
+        }
+        .datagrid-header td, .datagrid-body td, .datagrid-footer td{
+            border-color: #ffffff;
+        }
+        .datagrid-header-row{
+            height: 0px;
+            border: none;
+        }
+        .panel-header, .panel-body{
+            border: none;
+        }
+
+        @media all and (min-width:300px) and (max-width:800px) {
+            img {
+                width: 300px;
+                height: 600px;
+            }
+        }
+
+
+        #onlineChart {
+            display: block;
+            left: 400px;
+            top: 200px;
+            z-index: 9001;
+            width: 800px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+<div class="easyui-layout" style="width:100%;height:950px;">
+    <div data-options="region:'center',split:true,fit:'true'"  class="easyui-tabs" style="height: 500px;">
+        <div title="纺丝" style="padding:10px">
+            <div style="display: inline-block;height: 490px;">
+                <div style="float: left;margin-left:50px;"><img src="../../../custom/img/spin/spin.jpg" alt="" ></div>
+                <div style="float: left;margin-left:70px;width: 420px;display: inline-block;">
+                    <div style="width: 200px;float: left;height: 450px">
+                        <table class="easyui-datagrid" id="tt_one">
+                            <thead>
+                            <tr>
+                                <th field="name1" width="200" height="0px;"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_engine_room_BB">
+                                    <img src="../../../custom/img/spin/wind_machine.png" alt="" >纺丝机房风机</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_main_pump_BB">
+                                    <img src="../../../custom/img/spin/pump.png" alt="" style="" class="rotateimg">主管道计量泵</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_hot_water_BB">
+                                    <img src="../../../custom/img/spin/tank.png" alt="">热保温水</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_cold_water_BB">
+                                    <img src="../../../custom/img/spin/tank.png" alt="">冷保温水</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_raw_main_pipe_BB">
+                                    <img src="../../../custom/img/spin/main_pipe.jpg" alt="" style="height: 20px;width: 30px;margin-top: 5px;">原液主管道</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_branch_pump_BB">
+                                    <img src="../../../custom/img/spin/branch_pipe.png" alt="">支管道计量泵</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" style="margin-left: 15px;" data-tag="AA_y6_nozzle_BB">
+                                    <img src="../../../custom/img/spin/spinneret.png" alt="" style="margin-left: 15px;">喷汽头</a></dd></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="width: 200px;float: right;margin-left: 15px;height: 450px">
+                        <table class="easyui-datagrid" id="tt_two">
+                            <thead>
+                            <tr>
+                                <th field="name1" width="200"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_air_draft_drive_BB" >
+                                    <img src="../../../custom/img/spin/air_draft_machine.png" alt="" style="width: 40px;height: 20px;margin-top: 5px;">空气牵伸机驱动</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_coagulation_bath_BB">
+                                    <img src="../../../custom/img/spin/coagulation_bath.png" alt="" style="margin-top: 5px;width: 40px;height: 20px;">凝固浴</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_flux_valve_BB">
+                                    <img src="../../../custom/img/spin/valve.png" alt="">流量阀门</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_coagulation_bath_flume_BB">
+                                    <img src="../../../custom/img/spin/tank.png" alt="">凝固浴循环水槽</a></dd></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div title="水洗-水牵" style="padding:10px">
+            <div style="display: inline-block;height: 490px;">
+                <div style="float: left;margin-left: 50px;"><img src="../../../custom/img/spin/bath.jpg" alt="" style="height: 450px;"></div>
+                <div style="float: left;margin-left:120px;width: 250px;display: inline-block;">
+                    <div style="width: 125px;float: left;height: 450px">
+                        <table class="easyui-datagrid" id="tt_three" >
+                            <thead>
+                            <tr>
+                                <th field="name1" width="120"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_water_wash_air_machine_BB">
+                                    <img src="../../../custom/img/spin/wind_machine.png" alt="" >水洗风机</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_water_draft_air_machine_BB">
+                                    <img src="../../../custom/img/spin/wind_machine.png" alt="" style="" class="rotateimg">水牵风机</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_water_wash_drive_BB">
+                                    <img src="../../../custom/img/spin/air_draft_machine.png" alt="" style="height: 20px;width: 30px;margin-top: 5px;">水洗驱动</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_water_machine_BB">
+                                    <img src="../../../custom/img/spin/coagulation_bath.png" alt="" style="margin-top: 5px;width: 40px;height: 20px;">水洗机</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_water_draft_drive_BB">
+                                    <img src="../../../custom/img/spin/air_draft_machine.png" alt="" style="height: 20px;width: 30px;margin-top: 5px;">水牵驱动</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_water_draft_machine_BB">
+                                    <img src="../../../custom/img/spin/coagulation_bath.png" alt="" style="margin-top: 5px;width: 40px;height: 20px;">水牵机</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_water_cold_machine_BB">
+                                    <img src="../../../custom/img/spin/coagulation_bath.png" alt="" style="margin-top: 5px;width: 40px;height: 20px;">水冷机</a></dd></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="width: 125px;float: right;height: 450px">
+                        <table class="easyui-datagrid" id="tt_four">
+                            <thead>
+                            <tr>
+                                <th field="name1" width="120"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_water_wash_water_flume_BB">
+                                    <img src="../../../custom/img/spin/tank.png" alt="" >水洗水槽</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_draft_water_water_flume_BB">
+                                    <img src="../../../custom/img/spin/tank.png" alt="" >牵伸水水槽</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_cold_water_flume_BB">
+                                    <img src="../../../custom/img/spin/tank.png" alt="">冷却水水槽</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_demineralized_water_valve_BB">
+                                    <img src="../../../custom/img/spin/valve.png" alt="">脱盐水调节阀</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_draft_water_valve_BB">
+                                    <img src="../../../custom/img/spin/valve.png" alt="">牵伸水调节阀</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_cold_water_valve_BB">
+                                    <img src="../../../custom/img/spin/valve.png" alt="">冷却水调节阀</a></dd></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div title="上油-烘干-蒸牵" style="padding:10px">
+            <div style="display: inline-block;height: 490px;">
+                <div style="float: left;margin-left:50px;"><img src="../../../custom/img/spin/spinthree.png" alt="" ></div>
+                <div style="float: left;margin-left:200px;width: 420px;display: inline-block;">
+                    <div style="width: 200px;float: left;height: 450px">
+                        <table class="easyui-datagrid" id="tt_five">
+                            <thead>
+                            <tr>
+                                <th field="name1" width="150" height="0px;"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_stir_BB">
+                                    <img src="../../../custom/img/spin/blender.png" alt="" style="margin-left: 5px;
+                                                                                        transform: rotate(-90deg);
+                                                                                        -ms-transform: rotate(-90deg); /* IE 9 */
+                                                                                        -moz-transform: rotate(-90deg); /* Firefox */
+                                                                                        -webkit-transform: rotate(-90deg); /* Safari and Chrome */
+                                                                                        -o-transform: rotate(-90deg); /* Opera */
+                                                                                    ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;搅拌</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_oil_store_slot_BB">
+                                    <img src="../../../custom/img/spin/tank.png" alt="" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;浓油剂储存槽</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_oil_slot_BB">
+                                    <img src="../../../custom/img/spin/tank.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;油槽</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_oil_drive_BB">
+                                    <img src="../../../custom/img/spin/oildrive.png" alt="" style="margin-left: 5px;width: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;上油驱动</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_dry_adjust_valve_BB">
+                                    <img src="../../../custom/img/spin/valve.png" alt="" style="height: 20px;width: 30px;margin-top: 5px;margin-left: 3px;">&nbsp;&nbsp;&nbsp;&nbsp;干燥调节阀</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_dry_machine_BB">
+                                    <img src="../../../custom/img/spin/dryness.png" alt="" style="idth: 40px;height: 20px;margin-top: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;干燥机</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" style="margin-left: 15px;" data-tag="AA_y6_vapour_main_pump_BB">
+                                    <img src="../../../custom/img/spin/vapour_main_pipe.png" alt="" style="margin-top: 5px;width: 40px;height: 20px;">蒸汽主管道</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" style="margin-left: 15px;" data-tag="AA_y6_dry_cold_water_BB">
+                                    <img src="../../../custom/img/spin/coagulation_bath.png" alt="" style="margin-top: 5px;width: 40px;height: 20px;">烘干冷却水</a></dd></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="width: 200px;float: right;margin-left: 15px;height: 450px">
+                        <table class="easyui-datagrid" id="tt_six">
+                            <thead>
+                            <tr>
+                                <th field="name1" width="150"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" style="margin-left: 15px;" data-tag="AA_y6_vapour_adjust_valve_BB">
+                                    <img src="../../../custom/img/spin/valve.png" alt="" style="height: 20px;width: 30px;margin-top: 5px;margin-left: 7px;">蒸汽调节阀</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" style="margin-left: 15px;" data-tag="AA_y6_compress_air_pump_BB">
+                                    <img src="../../../custom/img/spin/compress_jug.png" alt="" style="width: 40px;height: 30px;">压缩空气罐</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_press_BB" >
+                                    <img src="../../../custom/img/spin/compress_jug.png" alt="" style="width: 40px;height: 30px;">稳压气包</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_vapour_BB">
+                                    <img src="../../../custom/img/spin/compress_jug.png" alt="" style="width: 40px;height: 30px;" >蒸汽气包</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_vapour_machine_BB">
+                                    <img src="../../../custom/img/spin/蒸牵机.png" alt="" style="width: 40px;height: 20px;margin-top: 5px;">蒸牵机</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_dry_wind_machine_BB">
+                                    <img src="../../../custom/img/spin/wind_machine.png" alt="" style="margin-left: 5px;">干燥一、二风机</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_vapour_wind_machine_BB">
+                                    <img src="../../../custom/img/spin/wind_machine.png" alt="" style="margin-left: 5px;">蒸牵一、二风机</a></dd></td>
+                            </tr>
+                            <tr>
+                                <td><dd><a href="javascript:void(0)" data-tag="AA_y6_vapour_cold_water_BB">
+                                    <img src="../../../custom/img/spin/coagulation_bath.png" alt="" style="margin-top: 5px;width: 40px;height: 20px;">蒸牵冷却水</a></dd></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div data-options="region:'south',split:true" style="height:450px;">
+        <div class="tableCon">
+            <table id="tableData" class="tableStyle" ></table>
+            <div id="tabelOperate">
+                <div>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-print" onclick="obj.exportExcel()">导出Excel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="onlineChart"  style="width:80%;height:255px;max-width:800px;padding:10px">
+        <div style="width: 98%;height: 200px;" id="chart"></div>
+    </div>
+</div>
+<!--引入js-->
+<script type="text/javascript" src="/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript" src="/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script src="/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script src="/common/echarts/js/echarts.js"></script>
+<script src="/common/echarts/js/echarts.min.js"></script>
+<script src="/common/2.1.5/layui.js"></script>
+<script src="/custom/js/dataquery/onlinemoniter.js"></script>
+</body>
+</html>

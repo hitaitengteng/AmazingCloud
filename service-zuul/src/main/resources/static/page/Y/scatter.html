@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>关联性查询</title>
+    <!--layui-->
+    <link rel="stylesheet" href="/common/layui/2.1.5/css/layui.css">
+    <!--easyui-->
+    <link rel="stylesheet" href="/common/jquery-easyui-1.5.5.4/themes/gray/easyui.css">
+    <link rel="stylesheet" href="/common/jquery-easyui-1.5.5.4/themes/icon.css">
+    <style>
+        /*初始化样式*/
+        body{
+            margin:0px;
+            padding:0px;
+            margin:0px auto;
+            zoom:1;
+            overflow-x: hidden;
+            /*设置字体*/
+            font-size:12px;
+            /*设置宽度*/
+            width:100%;
+            background-color: white;
+        }
+
+        .whut_table th{
+            text-align: center;
+            width: 60px!important;
+        }
+
+        .whut_table td {
+            text-align: center;
+            border-left:1px solid!important;
+            border-right:1px solid!important;
+            border-left-color:rgb(211,211,211)!important;
+            border-left-width: 1px!important;
+            border-right-color: rgb(211,211,211)!important;
+            border-left-width: 1px!important;
+        }
+
+        #eq_select_equipment_instance_confirm{
+            height: 29px;
+            margin-top: -48px;
+            margin-left: 300px;
+            line-height: 1px;
+        }
+        @media only screen and (max-width: 900px) {
+            #eq_select_equipment_instance_confirm {
+                width: 500px;
+                margin-top: 15px;
+                margin-left: 0px;
+            }
+        }
+    </style>
+</head>
+<body onload="openWebSocket('id')">
+<div class="whut_body">
+    <div class="widget-box" style="margin:16px 16px;padding-bottom:15px;text-align: center;">
+        <div class="row">
+            <p style="font-family: 'Microsoft YaHei';">
+            <form id="updatecharts">
+                &nbsp;   &nbsp;&nbsp;原丝线序号:&nbsp;&nbsp;&nbsp;
+                <select id="Yline" name="index" style="width: 100px; height: 29px;" class="easyui-combobox form-control"
+                        data-options="required:true">
+                    <option value="Y03">原丝3号线</option>
+                    <option value="Y05">原丝5号线</option>
+                    <option value="Y06">原丝6号线</option>
+                </select>
+            </form>
+            <button type="button" class="layui-btn" id="eq_select_equipment_instance_confirm"
+                    onclick="query()">查询
+            </button>
+            </p>
+        </div>
+        <div class="row" style="margin-right:0px;margin-left:0px">
+            <div id="nav" name="nav" style="font-size: 13px; text-align: right;margin: 0px 30px 0px 30px; visibility: hidden; color: #ee162d; ">注意：断点表示超出量程！</div>
+            <div id="scatter" style="height: 640px;"></div>
+        </div>
+    </div>
+</div>
+<script src="/common/Jquery/2.1.1/jquery.js"></script>
+<script src="/common/jquery-easyui-1.5.5.4/jquery.easyui.min.js"></script>
+<script src="/common/jquery-easyui-1.5.5.4/locale/easyui-lang-zh_CN.js"></script>
+<script src="/common/echarts/js/echarts.js"></script>
+<script src="/common/echarts/js/echarts.min.js"></script>
+<script src="/custom/js/Y/Ycontent/scatter.js"></script>
+
+</body>
+</html>

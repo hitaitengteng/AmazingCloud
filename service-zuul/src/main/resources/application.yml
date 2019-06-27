@@ -1,0 +1,28 @@
+server:
+  port: 8080
+logging:
+  file: service-zuul.log
+zuul:
+  routes:
+    dataQuery:
+      path: /dataQuery/**
+      serviceId: service-dataQuery
+    analyst:
+      path: /analyst/**
+      serviceId: service-analyst
+
+  host:
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000

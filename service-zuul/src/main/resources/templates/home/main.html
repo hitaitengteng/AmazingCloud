@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!--引入easyui的css-->
+    <link rel="stylesheet" href="/common/jquery-easyui-1.5.3/themes/default/easyui.css">
+    <link rel="stylesheet" href="/common/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/common/jquery-easyui-1.5.3/themes/icon.css">
+    <!--自定义-->
+    <link type="text/css" rel="stylesheet" href="/custom/css/home/main.css">
+</head>
+<body>
+<div class="easyui-layout" id="mainBox">
+    <div data-options="region:'north',split:true" style="height: 80px" class="mainTop">
+        <div class="topLogin"><img src="/custom/img/home/bglogo.png"/> <div class="topLongRight">连云港中复神鹰碳纤维云平台</div></div>
+        <div class="topText">
+            <a href="/page/home.html" class="textActive" target="frameName">
+                <p style="margin-top: 10px"><img src="/custom/img/home/ogrn.png"/> </p>
+                <p style="margin-top: 5px">数据查询</p>
+            </a>
+            <a href="/page/home.html" target="frameName" >
+                <p style="margin-top: 10px"><img src="/custom/img/home/analysis.png"/> </p>
+                <p style="margin-top: 5px">数据分析</p>
+            </a>
+            <a href="javascript:void(0)"  target="frameName">
+                <p style="margin-top: 10px"><img src="/custom/img/home/diagnose.png"/> </p>
+                <p style="margin-top: 5px">故障诊断</p>
+            </a>
+        </div>
+        <div href="javascript:void(0)" id="mb" class="easyui-menubutton topMean"
+             data-options="menu:'#mm',iconCls:'icon-admin'">管理员帐号</div>
+        <div id="mm" >
+            <div data-options="iconCls:'icon-redo'"><a href="javascript:void(0) "onclick="saveExit()">安全退出</a> </div>
+            <div data-options="iconCls:'icon-cancel'"><a href="javascript:void(0)" onclick="saveCanle()"> 注销</a> </div>
+        </div>
+    </div>
+    <div data-options="region:'south',split:true" style="height:40px;" class="footStyle">
+        2018 &copy;中复神鹰碳纤维有限责任公司,版权所有
+    </div>
+    <div  data-options="region:'west',title:'功能菜单',split:true,iconCls:'icon-left01'" style="width:200px;">
+        <div id="left01"  class="easyui-accordion" >
+            <div title="数据查询" data-options="iconCls:'icon-left05',selected:true" class="mainPanle">
+                <p><i class="i_a i_news"></i> <a href="/page/dataquery/onlinequery/realDetection.html" target="frameName">历史状态监控</a> </p>
+                <p><i class="i_a i_con"></i> <a href="/page/dataquery/onlinequery/plane_data_query.html" target="frameName">实时状态监控</a> </p>
+<!--                <p><i class="i_a i_device"></i> <a href="/page/dataquery/onlinequery/device_query.html" target="frameName">设备状态查询</a></p>-->
+                <p><i class="i_a i_sport02"></i> <a href="/page/dataquery/onlinequery/3demulation.html" target="_self">3D模型监控</a></p>
+                <p><i class="i_a i_sport02"></i> <a href="/page/dataquery/filedownload/exceldownload.html" target="frameName">Excel文件下载</a></p>
+            </div>
+            <div title="数据分析" data-options="iconCls:'icon-left03'" class="mainPanle">
+                <p><i class="i_a i_sta"></i><a href="/page/test/test.html" target="frameName">原丝质量分类</a></p>
+                <p><i class="i_a i_sta"></i><a href="table01.html" target="frameName">原丝质量预测</a></p>
+            </div>
+            <div title="故障诊断" data-options="iconCls:'icon-left04'" class="mainPanle">
+                <p><i class="i_a i_news"></i><a href="news.html" target="frameName">测试菜单1</a> </p>
+                <p><i class="i_a i_con"></i><a href="Tail.html" target="frameName">测试菜单2</a> </p>
+            </div>
+        </div>
+    </div>
+    <div data-options="region:'center'" style="padding:5px;background:#eee;">
+        <div id="con" data-options="narrow:'true'">
+            <div title="系统首页" >
+                <iframe frameborder="0" width="100%" height="100%" name="frameName" src="/page/home.html" scrolling="auto" id="ifDiv" ></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--引入js-->
+<script type="text/javascript" src="/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript" src="/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script src="/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script src="/custom/js/home/main.js"></script>
+</body>
+</html>

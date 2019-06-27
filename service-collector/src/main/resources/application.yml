@@ -1,0 +1,4 @@
+server:
+  port: 8020
+logging:
+  file: service-collector.log

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>excel文件下载</title>
+    <!--easyui-->
+    <link rel="stylesheet" href="/common/jquery-easyui-1.5.5.4/themes/gray/easyui.css">
+    <link rel="stylesheet" href="/common/jquery-easyui-1.5.5.4/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="/common/ace.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/custom/css/MP/webuploader.css"/>
+    <style type="text/css">
+        .webuploader-container {
+            position: relative;
+        }
+        .webuploader-element-invisible {
+            position: absolute !important;
+            clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+            clip: rect(1px,1px,1px,1px);
+        }
+        .webuploader-pick {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            background: #00b7ee;
+            padding: 10px 15px;
+            color: #fff;
+            text-align: center;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .webuploader-pick-hover {
+            background: #00a2d4;
+        }
+
+        .webuploader-pick-disable {
+            opacity: 0.6;
+            pointer-events:none;
+        }
+        .btn-success,
+        .btn-success:hover {
+            background-color: #92c0ea !important;
+            border-color: #92c0ea
+        }
+
+        .btn-success,
+        .btn-success :active {
+            background-color: #92c0ea !important;
+            border-color: #92c0ea
+        }
+
+        .btn-success,
+        .btn-success:focus {
+            background-color: #92c0ea !important;
+            border-color: #92c0ea
+        }
+
+        .header.green {
+            border-bottom-color: #92c0ea;
+        }
+
+        .green {
+            color: #92c0ea !important;
+        }
+
+        .widget-box {
+            border-bottom: 0px;
+        }
+
+        .panel-body {
+            padding: 0px;
+        }
+
+        input[readonly] {
+            background: #ffffff !important;
+            cursor: default;
+        }
+        #tab1 thead, #tab1 tr
+        {
+            border-top-width: 1px;
+            border-top-style: solid;
+            border-top-color: rgb(211, 202, 221);
+            font-family:"微软雅黑";
+        }
+        #tab1
+        {
+            overflow:scroll;
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-bottom-color: rgb(211, 202, 221);
+        }
+        #tab1 td, #tab1 th {
+            padding: 5px 10px;
+            font-size: 8px;
+            font-family: Verdana;
+            color: rgb(95, 74, 121);
+        }
+        #tab1 tr:nth-child(even) {
+            background: rgb(223, 216, 232)
+        }
+        #tab1 tr:nth-child(odd) {
+            background: #FFF
+        }
+
+        .header-color-purple {
+            background: #6eb087!important;
+            border-color: #6eb095!important;
+        }
+    </style>
+
+</head>
+<body>
+<div class="widget-box" style="margin:16px 24px;padding-bottom:15px;text-align: center;">
+    <div class="widget-header header-color-purple" style="border-top-left-radius:10px;border-top-right-radius:10px;">
+        <h4 style="color:white;font-family: '微软雅黑'">Excel文件下载</h4>
+    </div>
+    <div class="widget-body" style="border-bottom-right-radius:10px;border-bottom-left-radius:10px;">
+        <div class="widget-main">
+            <div class="row">
+                <div class="row" style="display:inline-block;align-content: center;margin-right:0px;margin-left:15px">
+                    <div class="row-left" style="width: 600px;height:720px;float:left;border: 1px solid gainsboro   ">
+                        <p style="margin-top: 5px;" align="center"></p>
+                        <p align="center">
+                            工序：<select  id="selectchannel" name="selectchannel"  style="width: 120px; height: 29px;" class="easyui-combobox form-control" editable="disabled"  data-options="required:true">
+                            <option >未选择</option><option value="1">主管道计量泵</option><option value="2">保温水</option><option value="3">原液主管道</option><option value="4">支管道计量泵</option><option value="5">空气牵伸机驱动</option><option value="6">凝固浴</option>
+                            <option value="7">流量阀门</option><option value="8">凝固浴循环水槽</option><option value="9">水洗机</option><option value="10">水洗驱动</option>
+                            <option value="11">水牵机</option><option value="12">水牵驱动</option><option value="13">水洗水槽</option><option value="14">牵伸水槽</option>
+                            <option value="15">冷却水槽</option><option value="16">脱盐水调节阀</option><option value="17">牵伸水调节阀</option><option value="18">搅拌机</option>
+                            <option value="19">浓油剂储存槽</option><option value="20">油槽</option><option value="21">上油驱动</option><option value="22">干燥调节阀</option><option value="23">干燥机</option>
+                            <option value="24">蒸汽主管道</option><option value="25">烘干冷却水</option><option value="26">蒸牵调节阀</option><option value="27">气包</option><option value="28">蒸牵机</option>
+                            <option value="29">风机</option><option value="30">蒸牵冷却水</option>
+                        </select>
+                            控制项目：<select  id="selectmonitor" name="selectmonitor"  style="width: 120px; height: 29px;" class="easyui-combobox form-control" editable="disabled"  data-options="required:true">
+                        </select>
+                        </p>
+                        <div style="margin-left: 0px; margin-top: 20px;">
+                            <input type="button" id="btn_add" value="添加信息" />&emsp;
+                            <input type="button" id="btn_clear" value="清空" />&emsp;
+                            <input type="button" id="btn_updata" value="excel下载" onclick="obj.selectTime()"/>&emsp;
+                        </div>
+                        <div style="height:600px;overflow-y:auto!important;">
+                            <table id="tab1" border="0" style="height:600px;text-align: center; width: 550px; margin-left: 20px;margin-top: 20px;" data-options="
+                               rownumbers:true,
+                               singleSelect:true,
+                               autoRowHeight:false,
+                               pagination:true,
+                               pageSize:4">
+                                <thead>
+                                <tr style="font-size: 15px;font-weight: bold;">
+                                    <td>
+                                        序号
+                                    </td>
+                                    <td>
+                                        工序
+                                    </td>
+                                    <td>
+                                        控制项目
+                                    </td>
+                                    <td>
+                                        操作
+                                    </td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        </p>
+                    </div>
+                    <div class="row-right" style="width:600px;margin-left: 600px;height:720px;border: 1px solid gainsboro   ">
+                        <p style="margin-top: 5px;" align="center">历史下载记录</p>
+                        <div style="height:600px;overflow-y:auto!important;">
+                            <table id="tab2" style="height:600px;text-align: center; width: 550px; margin-left: 20px;margin-top: 20px;">
+                                <thead>
+                                <tr style="font-size: 15px;font-weight: bold;">
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--导出Excel对话框-->
+<div id="exportExcel" style="display:none;width: 400px;height: 300px;max-width:800px;padding:10px">
+    <p>
+        &nbsp; &nbsp;开始时间:&nbsp; &nbsp;
+        <input class="easyui-datetimebox" value="10/11/2012 2:3:56" style="width:150px" id="startTime">
+    </p>
+    <p>
+        &nbsp; &nbsp;结束时间:&nbsp; &nbsp;
+        <input class="easyui-datetimebox" value="10/11/2012 2:3:56" style="width:150px" id="endTime">
+    </p>
+</div>
+<script src="/common/Jquery/2.1.1/jquery.js"></script>
+<script src="/common/jquery-easyui-1.5.5.4/jquery.easyui.min.js"></script>
+<script src="/common/jquery-easyui-1.5.5.4/locale/easyui-lang-zh_CN.js"></script>
+<script src="/common/2.1.5/layui.js"></script>
+<script>
+    layui.use(['jquery','layer','element'],function() {
+        window.jQuery = window.$ = layui.jquery;
+        window.layer = layui.layer;
+    });
+    //设置日期时间输入框的默认值为当前时间
+    $(function()
+    {
+        $("#startTime").datetimebox("setValue",getCurrDate());
+        $("#endTime").datetimebox("setValue",getCurrDate());
+    });
+
+    function getCurrDate(){
+        var curr_time=new Date();
+        var strDate=curr_time.getFullYear()+"-";
+        strDate +=curr_time.getMonth()+1+"-";
+        strDate +=curr_time.getDate()+"-";
+        strDate +=" "+curr_time.getHours()+":";
+        strDate +=curr_time.getMinutes()+":";
+        strDate +=curr_time.getSeconds();
+        return strDate;
+    }
+
+    //点击工序选择框
+    $('#selectchannel').combobox({
+        onSelect:function (select) {
+            var currSelect=$('#selectchannel').combobox('getText');
+            if(select.value!="未选择"){
+                $.ajax({
+                    url: "../../../findSectionByItemIndex",
+                    dataType: "json",    //返回的数据类型 json html 等
+                    type: "POST", //请求方式 post get
+                    data: {
+                        itemIndex:select.value
+                    }, //传递form的表单参数
+                    success: function (result) {
+                        var data = [];
+                        var jsonobject = function () {
+                            return {
+                                value:"",
+                                text:""
+                            }
+                        };
+                        for(var i=0;i<result.length;i++){
+                            var tempData = new jsonobject();
+                            tempData.value = result[i].tag;
+                            tempData.text = result[i].desc;
+                            data.push(tempData);
+                        }
+                        $('#selectmonitor').combobox('clear');
+                        $('#selectmonitor').combobox('loadData',data);
+                    },
+                    error: function () {
+                        layer.msg("服务端未响应");
+                    }
+                });
+            }else{
+                //$('#selectmonitor').combobox('loadData',"");
+            }
+        }
+    });
+
+
+    //           添加参数按键响应事件
+    $("#btn_add").click(function () {
+        var oTab = document.getElementById('tab1');
+        var rowNums = oTab.rows.length;
+//              先检查是否存在表中
+        for(var i=1;i<rowNums;i++){
+            var tabRowChannel = oTab.rows[i].cells[1].innerHTML;
+            var tabRowMonitor = oTab.rows[i].cells[2].innerHTML;
+            if(tabRowChannel==$('#selectchannel').combobox('getText') && tabRowMonitor==$('#selectmonitor').combobox('getValue')){
+                layer.msg("该节点已存在！");
+                return;
+            }
+        }
+
+        var rowObj = oTab.insertRow(rowNums); // 添加一行
+        rowObj.insertCell(0).innerHTML = oTab.rows.length-1;
+        rowObj.insertCell(1).innerHTML = $('#selectchannel').combobox('getText');
+        rowObj.insertCell(2).innerHTML = $('#selectmonitor').combobox('getValue');
+        rowObj.insertCell(3).innerHTML = '<a>删除</a>';
+        rowObj.getElementsByTagName('a')[0].onclick = function () {
+            oTab.deleteRow(this.parentNode.parentNode.rowIndex);
+            // 序号重新编号
+            for(var i=1;i<oTab.rows.length;i++){
+                oTab.rows[i].cells[0].innerHTML=i;
+            }
+        }
+//              序号重新编号
+        for(var i=1;i<oTab.rows.length;i++){
+            oTab.rows[i].cells[0].innerHTML=i;
+        }
+    });
+
+
+    //           清空参数按键响应事件
+    $('#btn_clear').click(function () {          //清空按钮操作
+        var oTab = document.getElementById('tab1');
+        var rowNum=oTab.rows.length;
+        for (i=1;i<rowNum;i++)
+        {
+            oTab.deleteRow(i);
+            rowNum=rowNum-1;
+            i=i-1;
+        }
+        num=1;        //清空后序号重置
+    });
+
+    var requestId;
+    obj={
+        // 查看
+        selectTime:function (tag,desc) {
+            //alert(id);
+            $("#exportExcel").dialog({
+                title:"Excel文件下载",
+                closed: false,
+                buttons:[{
+                    text: "确定",
+                    iconCls: 'icon-ok',
+                    handler: function () {
+                        $("#exportExcel").dialog({
+                            closed: true,
+                        });
+                        var startTime=$("#startTime").datetimebox("getValue");
+                        var stopTime=$("#endTime").datetimebox("getValue");
+                        var oTab = document.getElementById('tab1');
+                        var oTab2 = document.getElementById('tab2');
+                        var rowNums = oTab.rows.length;
+                        var tab2Index = oTab2.rows.length;
+                        if(rowNums <= 1) {
+                            layer.msg("请先选择要下载项！");
+                            return;
+                        }
+                        var rowObj2=oTab2.insertRow(tab2Index);
+                        rowObj2.insertCell(0).innerHTML=getCurrDate()+"开始下载";
+                        var str=[];
+                        for(var i=1;i<rowNums;i++){
+                            var temp=new String();
+                            var tabRowMonitor = oTab.rows[i].cells[2].innerHTML;
+                            str.push(tabRowMonitor);
+                        }
+                        console.log("标签："+str.join(","));
+                        $.ajax({
+                            url: "../../../dataQuery/toCSV",
+                            dataType: "json",    //返回的数据类型 json html 等
+                            type: "POST", //请求方式 post get
+                            data: {
+                                tags:str.join(','),
+                                startTime:startTime,
+                                stopTime:stopTime
+                            }, //传递form的表单参数
+                            success: function (result) {
+                                console.log(result);
+                                if (result.success){
+                                    requestId ="../../../"+result.data.replace("service-dataQuery","dataQuery");
+                                    window.open(requestId);
+                                    console.log(requestId);
+                                    //layer.msg("成功,正在开始下载");
+                                    //requestDownload();
+                                    rowObj2.insertCell(1).innerHTML=getCurrDate()+"完成下载";
+                                }else {
+                                    layer.msg(result.message);
+                                    rowObj2.insertCell(1).innerHTML=getCurrDate()+"下载失败";
+                                }
+                            },
+                            error: function () {
+                                layer.msg("服务端未响应");
+                                rowObj2.insertCell(1).innerHTML=getCurrDate()+"下载失败";
+                            }
+                        });
+                    }},{
+                    text: "取消",
+                    iconCls: 'icon-cancel',
+                    handler: function () {
+                        $("#exportExcel").dialog({
+                            closed: true,
+                        });
+                    }
+                }]
+            })
+        }
+    }
+
+    var clockTime;
+    function requestDownload() {
+        window.location.href = requestId;
+        var oTab2 = document.getElementById('tab2');
+        var rowObj2=oTab2.insertRow(tab2Index);
+        rowObj2.insertCell(1).innerHTML=getCurrDate()+"下载成功";
+        /*$.ajax({
+            url: requestId,
+            dataType: "json",    //返回的数据类型 json html 等
+            type: "GET", //请求方式 post get
+            //传递form的表单参数
+            success: function (result) {
+                console.log(result);
+                if(!(result.success)){
+                    clockTime = window.setInterval(requestDownload,5000);
+                }else {
+                    window.clearInterval(clockTime);
+                    var oTab2 = document.getElementById('tab2');
+                    var rowObj2=oTab2.insertRow(tab2Index);
+                    rowObj2.insertCell(1).innerHTML=getCurrDate()+"下载成功";
+                    window.location.href=result.data;
+                }
+            },
+            error: function () {
+                layer.msg("服务端未响应");
+                //rowObj2.insertCell(0).innerHTML=getCurrDate()+"下载失败";
+            }
+        });*/
+    }
+</script>
+</body>
+</html>

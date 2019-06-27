@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <!--引入easyui的css-->
+    <link rel="stylesheet" href="/common/jquery-easyui-1.5.5.4/themes/default/easyui.css">
+    <link rel="stylesheet" href="/common/jquery-easyui-1.5.5.4/themes/icon.css">
+    <style>
+        .panel-title{
+            font-weight: normal;
+            color: #0E2D5F;
+        }
+    </style>
+</head>
+<body class="easyui-layout">
+<div data-options="region:'north',split:false" style="height:60px;border: none;" >
+        <p style="text-align: center;">
+            &nbsp; &nbsp;类型选择:&nbsp; &nbsp;
+            <select class="easyui-combobox" name="contentIndex" id="contentIndex" style="width:100px;">
+                <option value="1">设备设定值</option>
+                <option value="2">设备启停状态</option>
+                <option value="3">设备启停反馈</option>
+            </select>
+            &nbsp; &nbsp;工段选择:&nbsp; &nbsp;
+            <select class="easyui-combobox" name="section" id="section" style="width:150px;" >
+                <option value="1">支管道计量泵</option>
+                <option value="3">凝固浴循环水槽</option>
+                <option value="7">牵伸水调节阀</option>
+                <option value="2">流量阀门</option>
+                <option value="4">水洗水槽</option>
+                <option value="5">牵伸水槽</option>
+                <option value="6">冷却水槽</option>
+                <option value="8">干燥调节阀</option>
+                <option value="9">烘干冷却水</option>
+                <option value="10">蒸牵调节阀</option>
+                <option value="11">蒸牵冷却水</option>
+            </select>
+            &nbsp; &nbsp;控制项目:&nbsp; &nbsp;
+            <select class="easyui-combobox form-control" name="content" style="width:100px;" id="content"></select>
+            &nbsp; &nbsp;开始时间:&nbsp; &nbsp;
+            <input class="easyui-datetimebox" value="10/11/2012 2:3:56" style="width:100px" id="startTime">
+            &nbsp; &nbsp;结束时间:&nbsp; &nbsp;
+            <input class="easyui-datetimebox" value="10/11/2012 2:3:56" style="width:100px" id="endTime">
+            &nbsp; &nbsp;&nbsp; &nbsp;
+            <button type="submit" class="layui-btn" id="eq_select_equipment_instance_confirm"
+                    style="width: 50px;height:32px;background-color: #00bbee;border-radius: 5px;" onclick="queryDeviceStatus()">查询
+            </button>
+        </p>
+</div>
+<!--<div data-options="region:'west'" style="height:60px">
+</div>-->
+
+<div data-options="region:'center',split:false"  style="min-height: 600px;">
+    <div class="easyui-layout" style="min-width:700px;height:100%;">
+        <div data-options="region:'west'" style="width:490px;">
+            <table id="tt" class="easyui-datagrid" style="width:485px;height:100%;border: none;"
+                   data-options="singleSelect:'true',method:'get',pagination:true,toolbar:'#exportExcel'">
+                <thead>
+                <tr>
+                    <th data-options="field:'time',width:80">时间</th>
+                    <th data-options="field:'tag',width:80">参数标签</th>
+                    <th data-options="field:'desc',width:80">参数描述</th>
+                    <th data-options="field:'address',width:80">设备地址</th>
+                    <th data-options="field:'type',width:80">数据类型</th>
+                    <th data-options="field:'statusvalue',width:80">状态值</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div data-options="region:'center',split:false">
+            <div class="easyui-layout" style="min-width:300px;height: 100%">
+                <div data-options="region:'north',collapsible:false,split:false,title:'实时数据波动'" style="height: 50%;">
+                    <div style="width:70%;height:300px;" id="onlinechart"></div>
+                </div>
+                <div data-options="region:'south',collapsible:false,split:false,title:'历史数据波动'" style="height: 50%;">
+                    <div style="width:70%;height:250px;margin-top: 45px;" id="offlinechart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="exportExcel">
+    <div>
+        <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-print" onclick="obj.exportExcel()">导出Excel</a>
+    </div>
+</div>
+<!--引入js-->
+<script type="text/javascript" src="/common/jquery-easyui-1.5.5.4/jquery.min.js"></script>
+<script type="text/javascript" src="/common/jquery-easyui-1.5.5.4/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/common/jquery-easyui-1.5.5.4/locale/easyui-lang-zh_CN.js"></script>
+<!--Highcharts-->
+<script src="/common/Highstock-6.2.0/code/highstock.js"></script>
+<script src="/common/Highstock-6.2.0/code/modules/exporting.js"></script>
+<script src="/common/Highstock-6.2.0/code/modules/export-data.js"></script>
+<script src="/common/echarts/js/echarts.js"></script>
+<script src="/common/echarts/js/echarts.min.js"></script>
+<script src="/common/2.1.5/layui.js"></script>
+<script src="/custom/js/dataquery/device_qiery.js"></script>
+</body>
+</html>

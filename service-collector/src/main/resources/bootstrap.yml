@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: service-collector
+  cloud:
+    config:
+      enabled: false
+      discovery:
+        enabled: false
+        service-id: CONFIG
+eureka:
+  instance:
+    non-secure-port: ${server.port:8020}
+  client:
+    service-url:
+      defaultZone: http://${eureka.host:59.69.101.206}:${eureka.port:48000}/eureka/

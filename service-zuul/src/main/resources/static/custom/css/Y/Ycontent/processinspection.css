@@ -1,0 +1,57 @@
+@charset "utf-8";
+body{
+    margin:0px;
+    padding:0px;
+    margin:0px auto;
+    zoom:1;
+    overflow-x: hidden;
+    /*设置字体*/
+    font-size:12px;
+    line-height:24px;
+    /*设置宽度*/
+    width:100%;
+}
+
+#layui-layout{
+    margin: 16px 16px;
+    padding-bottom: 15px;
+    text-align: center;
+    top:-8px;
+    left: 0px;
+    background: #ffffff;
+}
+
+.whut_tab{
+    height: 700px;
+    background: #ffffff;
+    border: 1px solid #e4e4e4;
+    border-bottom-right-radius:10px;
+    border-bottom-left-radius:10px;
+}
+.layui-tab-card>.layui-tab-title{
+    background-color: #eff2f7;
+}
+.layui-tab-title{
+    text-align: center;
+}
+
+.layui-tab-title>.layui-this{
+    background-color: #1E9FFF!important;
+}
+
+.layui-tab-content{
+    padding: 0px;
+    margin: 0px;
+}
+.layui-tab-item{
+    padding: 0px;
+    margin: 0px;
+
+}
+.layui-tab-content .layui-tab-item>iframe{
+    width: 100%;
+    border: 0;
+    height: 450px;
+    border-bottom-left-radius:10px;
+    margin-top: 20px;
+}

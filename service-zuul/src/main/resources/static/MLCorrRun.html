@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function openWebSocket(webSocketId) {
+        var url = "ws://localhost:8185";
+        var socket = new WebSocket(url + '/websocket/'+ webSocketId);
+        socket.onerror = function (event)
+        {
+            console.log("连接失败");
+        };
+        socket.onopen = function (event)
+        {
+            console.log("已连接");
+        };
+
+        socket.onmessage = function (event)
+        {
+            console.log(event.data);
+        };
+    }
+    openWebSocket("id");
+    $.ajax({
+        cache: false,
+        url: "http://localhost:8185/runCorr",
+        data: {},/*固定位6号线*/
+        type: "POST",
+        dataType: "json",
+        success: function (result) {
+            console.log(result);
+        }
+    });
+</script>
+</body>
+</html>

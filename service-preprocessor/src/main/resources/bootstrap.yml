@@ -1,0 +1,16 @@
+ring:
+  application:
+    name: service-preprocessor
+  cloud:
+    config:
+      enabled: false
+      discovery:
+        enabled: false
+        service-id: CONFIG
+
+eureka:
+  instance:
+    non-secure-port: ${server.port:8030}
+  client:
+    service-url:
+      defaultZone: http://${eureka.host:59.69.101.206}:${eureka.port:48000}/eureka/

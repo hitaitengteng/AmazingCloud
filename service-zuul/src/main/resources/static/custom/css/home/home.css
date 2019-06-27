@@ -1,0 +1,188 @@
+@charset "utf-8";
+/*初始化样式*/
+body{
+    margin:0px;
+    padding:0px;
+    margin:0px auto;
+    zoom:1;
+    overflow-x: hidden;
+    /*设置字体*/
+    font-size:12px;
+    line-height:24px;
+    /*设置宽度*/
+    width:100%;
+}
+
+ul,li,form, dl,dt,dd{
+    padding: 0px;
+    margin: 0px;
+}
+
+.ul,.ul li{
+    list-style:none;
+}
+
+.h1,.h2,.h3,.h4,.h5,.h6,.p{
+    padding:0px; margin:0px;
+}
+
+select,input,textarea{
+    border-radius:0;
+    -webkit-border-radius:0;
+    color:#414446;
+}
+
+/*强制去除表单自带的样式*/
+input,button,select,textarea {
+    outline:none;/*-webkit-appearance:none;*/
+}
+
+/*强制去除textarea自带的样式*/
+textarea {
+    resize:none;/*-webkit-appearance:none;*/
+}
+
+/*初始化图片样式*/
+img{ border:none;
+    border:0;
+    max-width:100%;
+    vertical-align:top;
+}
+
+textarea,input,select {
+    background:none;
+    border:none;
+    margin:0;
+    padding:0;
+}
+
+/*html5设置*/
+article,aside,footer,header,hgroup,nav,section,figure,figcaption {
+    display: block;
+}
+
+figure,figcaption {
+    margin:0px; padding:0px;
+}
+
+audio,canvas,progress,video {
+    display: inline-block;
+    vertical-align: baseline;
+}
+
+img {
+    border:none;
+    border:0;
+    vertical-align:baseline;
+}
+
+a {
+    color:#414446;
+    text-decoration:none;
+}
+a:focus {
+    outline:none;
+    -moz-outline:none;
+}
+
+a:hover{
+    text-decoration:none;
+    color:#009ed3;
+}
+
+/*背景轮播样式*/
+#bgcarousel {
+    position: relative;
+    width: 100%;
+}
+
+
+/*服务中心对应的样式*/
+#owl-demo .item  .h2 {
+    margin: 27px 0;
+    display: block;
+}
+
+#owl-demo .item:hover {
+    background: #009fd9;
+    color:#fff;
+    box-shadow: 0 0 15px 3px #c0dee9;
+}
+
+.service {
+    padding: 50px 32px;
+    width: 100%;
+    background: url("../../../custom/img/home/bg/bg-img.jpg");
+    box-sizing: border-box;
+}
+
+.service .title {
+    background: url(../../../custom/img/home/title-pro.jpg) no-repeat center 0;
+    font-size: 34px;
+    text-align: center;
+    position: relative;
+    padding-bottom: 20px;
+    height: 65px;
+    line-height: 65px;
+}
+
+.service .ser-list {
+    margin: 0px;
+}
+
+#owl-demo {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin: 50px 0 20px 0;
+}
+
+.owl-carousel .owl-stage-outer{
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.owl-carousel .owl-stage-outer .owl-stage {
+    width: 3384px;
+    left: 0px;
+    display: block;
+    transition: all 0ms ease;
+    transform: translate3d(0px, 0px, 0px);
+}
+.owl-carousel .owl-item {
+    min-height: 1px;
+    float: left;
+}
+
+#owl-demo .item {
+    display: block;
+    margin: 15px;
+    background: #fff;
+    padding: 10px 10px 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#owl-demo .item .pic {
+    width: 100%;
+}
+
+h2{
+    font-size: 1.5em;
+    -webkit-margin-before: 0.83em;
+    -webkit-margin-after: 0.83em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+}
+#owl-demo img {
+    display: block;
+    width: 100%;
+}
+
+#owl-demo .item .contents {
+    height: 72px;
+    overflow: hidden;
+}

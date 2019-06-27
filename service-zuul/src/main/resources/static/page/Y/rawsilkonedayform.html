@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo1</title>
+    <!--layui-->
+    <link rel="stylesheet" href="../../common/layui/2.1.5/css/layui.css">
+    <!--datatable+bootstrap的样式-->
+    <link rel="stylesheet" href="../../common/bootstrap/3.3.7/css/bootstrap.css">
+    <link rel="stylesheet" href="../../common/DataTables/DataTables-1.10.18/css/dataTables.bootstrap.css">
+    <!--easyui-->
+    <link rel="stylesheet" href="../../common/jquery-easyui-1.5.5.4/themes/gray/easyui.css">
+    <link rel="stylesheet" href="../../common/jquery-easyui-1.5.5.4/themes/icon.css">
+    <style>
+        /*初始化样式*/
+        body{
+            margin:0px;
+            padding:0px;
+            margin:0px auto;
+            zoom:1;
+            overflow-x: hidden;
+            /*设置字体*/
+            font-size:12px;
+            /*设置宽度*/
+            width:100%;
+            background-color: white;
+        }
+
+        .whut_table{
+            margin: 16px 16px;
+            padding-bottom: 15px;
+            top:-8px;
+            left: 0px;
+        }
+
+        .whut_table th{
+            text-align: center;
+            width: 60px!important;
+        }
+
+        .whut_table td {
+            text-align: center;
+            border-left:1px solid!important;
+            border-right:1px solid!important;
+            border-left-color:rgb(211,211,211)!important;
+            border-left-width: 1px!important;
+            border-right-color: rgb(211,211,211)!important;
+            border-left-width: 1px!important;
+        }
+
+        .row1 {
+            width: 100%;
+            height: 50px;
+        }
+
+        #eq_select_equipment_instance_confirm{
+            height: 29px;
+            margin-top: -48px;
+            margin-left: 450px;
+            line-height: 1px;
+        }
+        @media only screen and (max-width: 900px) {
+            #eq_select_equipment_instance_confirm {
+                width: 500px;
+                margin-top: 15px;
+                margin-left: 0px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="whut_body">
+    <div class="widget-box" style="margin:16px 16px;padding-bottom:15px;text-align: center;">
+        <div class="row">
+            <p style="font-family: 'Microsoft YaHei';">
+            <form id="updatecharts">
+                &nbsp;   &nbsp;&nbsp;原丝线序号:&nbsp;&nbsp;&nbsp;
+                <select id="Yline" name="index" style="width: 100px; height: 29px;" class="easyui-combobox form-control"
+                        data-options="required:true">
+                    <option value="">Y6</option>
+                </select>
+                &nbsp;&nbsp;时间:&nbsp;&nbsp;
+                <input id="time" name="time" style="width: 100px; height: 29px;" class="easyui-datebox"
+                       data-options="required:true" editable="false"/>
+            </form>
+            <button type="button" class="layui-btn" id="eq_select_equipment_instance_confirm"
+                    onclick="">查询
+            </button>
+            </p>
+        </div>
+    </div>
+    <div class="whut_table table-responsive">
+        <table id="table_id_example" cellpadding="0" class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr class="row1">
+                <th rowspan="2"  colspan="1" ></th>
+                <th rowspan="2"  colspan="1" >纺位</th>
+                <th colspan="2">掉浆</th>
+                <th colspan="1">几月</th>
+                <th colspan="2">吸水</th>
+                <th colspan="3">喷头、温度</th>
+                <th colspan="7">喷头</th>
+                <th colspan="4">过滤器</th>
+                <th colspan="3">凝固浴</th>
+                <th rowspan="2" colspan="1">计量泵转速</th>
+                <th rowspan="1">毛丝等级</th>
+                <th rowspan="1" style="width: 80px!important;">线密度CV值</th>
+                <th rowspan="1">整轴率%</th>
+                <th rowspan="1">一等品率%</th>
+                <th rowspan="2">降等情况</th>
+                <th rowspan="2">当日运行情况</th>
+            </tr>
+            <tr class="row2">
+                <th>白</th>
+                <th>夜</th>
+                <th>累计掉浆吸水</th>
+                <th>白</th>
+                <th>夜</th>
+                <th>最大</th>
+                <th>最小</th>
+                <th>平均</th>
+                <th>编号</th>
+                <th>堵孔%</th>
+                <th>使用日期</th>
+                <th>使用天数</th>
+                <th>是否漏浆</th>
+                <th>斜丝数量</th>
+                <th>压力</th>
+                <th>压力</th>
+                <th>种类</th>
+                <th>使用日期</th>
+                <th>已使用天数</th>
+                <th>循环量</th>
+                <th>空气高度</th>
+                <th>温度</th>
+                <th>平均值</th>
+                <th>平均值</th>
+                <th>%</th>
+                <th rowspan="1" colspan="1" style="border-right: 1px solid!important;border-right-color: rgb(211,211,211)!important;border-right-width: 1px!important;">%</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="/common/Jquery/2.1.1/jquery.js"></script>
+<!--easyui-->
+<script src="../../common/jquery-easyui-1.5.5.4/jquery.easyui.min.js"></script>
+<script src="../../common/jquery-easyui-1.5.5.4/locale/easyui-lang-zh_CN.js"></script>
+<script src="../../common/bootstrap/3.3.7/js/bootstrap.js"></script>
+<script src="../../common/DataTables/DataTables-1.10.18/js/jquery.dataTables.js"></script>
+<script src="../../common/DataTables/DataTables-1.10.18/js/dataTables.bootstrap.js"></script>
+<!--第三步：初始化DT-->
+<script>
+    $(document).ready(function () {
+        var data =[
+            ["1#",1,"null","null","null","null","null",27.8,27.8,27.8,"10.16.137","null","3月2号",32,"不",0,3.3,5,"PY009.16.10-3U","3月2号",32,450,4,7.6,0,2,0.6,"null","null","null","99999",3],
+            ["1#",2,"null","null","null","null","null",27.5,27.4,27.45,"10.16.132","null","3月14号",20,"漏",0,3,4.5,"PY013.16.105U","3月2号",32,450,4,7.4,0,2,0.6,"null","null","null","9999",0],
+            ["1#",3,"null","null","null","null","null",28.3,28.2,28.25,"10.16.130","null","3月2号",32,"漏",0,3.1,4.2,"16A452","3月2号",32,450,3,8,0,2,0.6,"null","null","null","99999",0],
+            ["2#",1,"null","null","null","null","null",27.8,27.8,27.8,"10.16.137","null","3月2号",32,"不",0,3.3,5,"PY009.16.10-3U","3月2号",32,450,4,7.6,0,2,0.6,"null","null","null","99999",3],
+            ["2#",2,"null","null","null","null","null",27.5,27.4,27.45,"10.16.132","null","3月14号",20,"漏",0,3,4.5,"PY013.16.105U","3月2号",32,450,4,7.4,0,2,0.6,"null","null","null","9999",0],
+            ["2#",3,"null","null","null","null","null",28.3,28.2,28.25,"10.16.130","null","3月2号",32,"漏",0,3.1,4.2,"16A452","3月2号",32,450,3,8,0,2,0.6,"null","null","null","99999",0],
+            ["3#",1,"null","null","null","null","null",27.8,27.8,27.8,"10.16.137","null","3月2号",32,"不",0,3.3,5,"PY009.16.10-3U","3月2号",32,450,4,7.6,0,2,0.6,"null","null","null","99999",3],
+            ["3#",2,"null","null","null","null","null",27.5,27.4,27.45,"10.16.132","null","3月14号",20,"漏",0,3,4.5,"PY013.16.105U","3月2号",32,450,4,7.4,0,2,0.6,"null","null","null","9999",0],
+            ["3#",3,"null","null","null","null","null",28.3,28.2,28.25,"10.16.130","null","3月2号",32,"漏",0,3.1,4.2,"16A452","3月2号",32,450,3,8,0,2,0.6,"null","null","null","99999",0],
+            ["4#",1,"null","null","null","null","null",27.8,27.8,27.8,"10.16.137","null","3月2号",32,"不",0,3.3,5,"PY009.16.10-3U","3月2号",32,450,4,7.6,0,2,0.6,"null","null","null","99999",3],
+            ["4#",2,"null","null","null","null","null",27.5,27.4,27.45,"10.16.132","null","3月14号",20,"漏",0,3,4.5,"PY013.16.105U","3月2号",32,450,4,7.4,0,2,0.6,"null","null","null","9999",0],
+            ["4#",3,"null","null","null","null","null",28.3,28.2,28.25,"10.16.130","null","3月2号",32,"漏",0,3.1,4.2,"16A452","3月2号",32,450,3,8,0,2,0.6,"null","null","null","99999",0]
+        ];
+        $('#table_id_example').DataTable(
+            {
+                data: data,
+                paging: true,
+                bProcessing: true,
+                bFilter:true,
+                ordering: false,
+                aLengthMenu:[9,45,99],
+                columnDefs:[
+                    {
+                        targets:[0,26,27,28,29,30],//第1列
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            var rowspan = rowData[31];
+                            if (rowspan > 1) {
+                                $(td).attr('rowspan', rowspan);
+                                $(td).css("line-height","135px");
+                            }
+                            if (rowspan == 0) {
+                                $(td).remove();
+                            }
+                        }
+                    }
+                ],
+                language: {
+                    sProcessing: "处理中...",
+                    sLengthMenu: "显示 _MENU_ 结果",
+                    sZeroRecords: "没有匹配结果",
+                    sInfo: "显示第 _START_ 至 _END_ 项 结果，共 _TOTAL_ 项",
+                    sInfoEmpty: "显示第 0 至 0 项结果，共 0 项",
+                    sInfoFiltered: "(由 _MAX_ 项结果过滤)",
+                    sInfoPostFix: "",
+                    sSearch: "搜索:",
+                    sUrl: "",
+                    sEmptyTable: "表中数据为空",
+                    sLoadingRecords: "载入中...",
+                    sInfoThousands: ",",
+                    oPaginate: {
+                        sFirst: "首页",
+                        sPrevious: "上页",
+                        sNext: "下页",
+                        sLast: "末页"
+                    },
+                    oAria: {
+                        sSortAscending: ": 以升序排列此列",
+                        sSortDescending: ": 以降序排列此列"
+                    },
+                }
+            }
+        );
+    });
+</script>
+</body>
+</html>

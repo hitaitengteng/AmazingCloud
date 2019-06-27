@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/AmazingCloud.iml" filepath="$PROJECT_DIR$/AmazingCloud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/base-config/base-config.iml" filepath="$PROJECT_DIR$/base-config/base-config.iml" />
+      <module fileurl="file://$PROJECT_DIR$/base-discovery/base-discovery.iml" filepath="$PROJECT_DIR$/base-discovery/base-discovery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-analyst/service-analyst.iml" filepath="$PROJECT_DIR$/service-analyst/service-analyst.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-collector/service-collector.iml" filepath="$PROJECT_DIR$/service-collector/service-collector.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-dataQuery/service-dataQuery.iml" filepath="$PROJECT_DIR$/service-dataQuery/service-dataQuery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-preprocessor/service-preprocessor.iml" filepath="$PROJECT_DIR$/service-preprocessor/service-preprocessor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-zuul/service-zuul.iml" filepath="$PROJECT_DIR$/service-zuul/service-zuul.iml" />
+    </modules>
+  </component>
+</project>

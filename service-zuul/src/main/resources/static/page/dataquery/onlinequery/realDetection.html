@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--引入easyui的css-->
+    <link rel="stylesheet" href="/common/jquery-easyui-1.5.3/themes/default/easyui.css">
+    <link rel="stylesheet" href="/common/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/common/jquery-easyui-1.5.3/themes/icon.css">
+    <link rel="stylesheet" href="/custom/css/home/main.css">
+</head>
+<body class="easyui-layout">
+<div data-options="region:'west',split:true" title="监控内容选择" style="width:270px;padding:10px;" id="west">
+    <div id="tt" class="easyui-tabs" data-options="narrow:'true'" style="width:100%;height:100%;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;">
+        <div title="按工段" data-options="tabWidth:121,border:false">
+            <div  id="work" class="easyui-accordion" style="width:100%;height:100%;" data-options=" selected:false">
+                <div title="纺丝机"  style="overflow:auto;padding:10px;">
+                    <div id="accordion_content_1"></div>
+                </div>
+                <div title="水洗" style="padding: 10px;">
+                    <div id="accordion_content_2"></div>
+                </div>
+                <div title="水牵" style="padding: 10px;">
+                    <div id="accordion_content_3"></div>
+                </div>
+                <div title="上油" style="padding: 10px;">
+                    <div id="accordion_content_4"></div>
+                </div>
+                <div title="烘干" style="padding: 10px;">
+                    <div id="accordion_content_5"></div>
+                </div>
+                <div title="蒸牵" style="padding: 10px;">
+                    <div id="accordion_content_6"></div>
+                </div>
+                <div title="卷绕" style="padding: 10px;">
+                    <div id="accordion_content_7"></div>
+                </div>
+            </div>
+        </div>
+        <div title="按报警反馈" data-options="tabWidth:121,border:false">
+            <div  id="warn" class="easyui-accordion" style="width:100%;height:100%;" data-options=" selected:false">
+                <div title="报警记录"  style="overflow:auto;padding:10px;" data-options="href:'_content.html'"></div>
+                <div title="未报警记录" style="padding: 10px;" data-options="href:'_content.html'"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div data-options="region:'center'"style="background: #F5F5F5">
+    <div id="bb">
+    </div>
+</div>
+<!--引入js-->
+<script type="text/javascript" src="/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript" src="/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script src="/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<!--Highcharts-->
+<script src="/common/Highstock-6.2.0/code/highstock.js"></script>
+<script src="/common/Highstock-6.2.0/code/modules/exporting.js"></script>
+<script src="/common/Highstock-6.2.0/code/modules/export-data.js"></script>
+<script src="/common/2.1.5/layui.js"></script>
+<!--<script src="/common/echarts/js/echarts.js"></script>
+<script src="/common/echarts/js/echarts.min.js"></script>-->
+<script>
+    layui.use(['jquery','layer','element'],function() {
+        window.jQuery = window.$ = layui.jquery;
+        window.layer = layui.layer;
+    });
+    //全局变量
+    var accordion_index_json = {//保存每个手风琴下面内容外层div的id
+        accordion_1: "accordion_content_1",
+        accordion_2: "accordion_content_2",
+        accordion_3: "accordion_content_3",
+        accordion_4: "accordion_content_4",
+        accordion_5: "accordion_content_5",
+        accordion_6: "accordion_content_6",
+        accordion_7: "accordion_content_7",
+    };
+
+    var accordion_index = "";//保存选中的手风琴内容外层div的id
+
+    $(function () {
+        $('#tt').tabs({tabPosition: "bottom"});
+        var work = $('#work').accordion('getSelected');
+        var warn = $('#warn').accordion('getSelected');
+        //选中监控内容选择中的按公段中的手风琴
+        $('#work').accordion({
+            onSelect: function (title, index) {
+                //console.log("选中手风琴1");
+                var tranData = index + 1;
+                //accordion_index="#"+accordion_index_json["accordion_"+tranData];
+                request(tranData);
+            },
+            onUnselect: function (title, index) {
+                document.getElementById("bb").innerHTML = "";
+                var index = index + 1;
+                //accordion_index="#"+accordion_index_json["accordion_"+index];
+                document.getElementById(accordion_index_json["accordion_" + index]).innerHTML = "";
+
+            }
+        });
+        //选中监控内容选择中的按报警记录中的手风琴
+        $('#warn').accordion({
+            onSelect: function (title, index) {
+                var tranData = true;
+                if (index === 1) {
+                    tranData = false;
+                }
+                request(tranData);
+
+            }
+        });
+    });
+
+    //向后台请求
+    function request(tranData) {
+        $.ajax({
+            url: "../../../findAllFactory",
+            dataType: "json",    //返回的数据类型 json html 等
+            type: "POST", //请求方式 post get
+            data: {
+                section: tranData
+            }, //传递form的表单参数
+            success: function (result) {
+                //console.log(result);
+                var data = result.data;
+                //console.log(data);
+                addDom(data, tranData);
+                createSearchBox("#search" + tranData, tranData);//创建搜索框
+            },
+            error: function () {
+                layer.msg("服务器未响应");
+            }
+        });
+    }
+
+    //动态添加dom结点
+    function addDom(data, accIndex) {
+        var div = document.getElementById(accordion_index_json["accordion_" + accIndex]);
+        //创建搜索框input
+        var s_input = document.createElement("input");
+        s_input.id = "search" + accIndex;
+        div.appendChild(s_input);
+        for (var index = 0; index < data.length; index++) {
+            var value = data[index];
+            var desc = value.desc;
+            var tag = value.tag;
+            var p = document.createElement("p");// 在这里创建一个p标签
+            var input = document.createElement("input");// 在这里创建一个p标签
+            input.type = "checkbox";
+            input.setAttribute("data-value", "input-div" + tag);
+            input.value = index + 1;
+            p.appendChild(input);
+
+            var a = document.createElement("a");//因为都是字符串，所以需要加""是创建出来的一对标签
+            a.href = "#target" + tag;
+            a.innerHTML = desc;
+            a.className = "aParameter";
+            a.id = tag;
+            p.appendChild(a);    //将存储在内存中的i标签剪切到p之中
+
+            div.appendChild(p);         //将存储在内存中p标签剪切到div之中
+        }
+    }
+
+    //创建搜索框
+    function createSearchBox(search_id, index) {
+        $(search_id).searchbox({
+            width: 180,
+            prompt: "请输入关键字",
+            iconWidth: 30,
+            searcher: function (value) {
+                //alert(value);
+                doSearch(value, index);
+            }
+        });
+    }
+
+    //执行搜索函数
+    function doSearch(search_content, index) {
+        var div = document.getElementById(accordion_index_json["accordion_" + index]);
+        var links = div.getElementsByTagName('a');
+        var flag = true;
+        if (flag) {
+            for (var i = 0; i < links.length; i++) {
+                var a_id = links[i].id;
+                var a_text = links[i].innerHTML;
+                if (search_content === a_id || search_content === a_text) {
+                    links[i].focus();
+                    flag = false;
+                    break;
+                }
+            }
+        } else {
+            flag = true;
+            layer.msg("你搜索的内容不存在");
+        }
+    }
+
+
+    $("#accordion_content_1").on("click", "a", function () {
+        //console.log(typeof accordion_index);
+        //console.log(accordion_index);
+        if ($(this)[0].className != "textbox-icon searchbox-button") {
+            var input = $(this).prev();
+            var value = input.val();
+            //console.log(input);
+            var data_div_value = input[0].getAttribute("data-value");
+            //console.log(data_div_value);
+            //console.log($(this))
+            var a_Text = $(this)[0].innerHTML;
+            //console.log(a_Text);
+            var a_id = $(this).attr("id")//a标签的id,也对应控制项目的tag
+            if (input.is(':checked')) {
+                input.prop("checked", false);
+                if (validateDivExists(value, data_div_value)) {
+                    onOrOffDiv(value, data_div_value);
+                } else {
+                    addRightDivPic(value, a_id, a_Text, data_div_value);
+                    createDateDataBox(a_id);
+                }
+
+            } else {
+                input.prop("checked", true);
+                var showoff = "block";
+                if (validateDivExists(value, data_div_value)) {
+                    onOrOffDiv(value, data_div_value);
+
+                } else {
+                    addRightDivPic(value, a_id, a_Text, data_div_value);
+                    createDateDataBox(a_id);
+                }
+            }
+        }
+    });
+    $("#accordion_content_2").on("click", "a", function () {
+        //console.log(typeof accordion_index);
+        //console.log(accordion_index);
+        if ($(this)[0].className != "textbox-icon searchbox-button") {
+            var input = $(this).prev();
+            var value = input.val();
+            //console.log(input);
+            var data_div_value = input[0].getAttribute("data-value");
+            //console.log(data_div_value);
+            //console.log($(this))
+            var a_Text = $(this)[0].innerHTML;
+            //console.log(a_Text);
+            var a_id = $(this).attr("id")//a标签的id,也对应控制项目的tag
+            if (input.is(':checked')) {
+                input.prop("checked", false);
+                if (validateDivExists(value, data_div_value)) {
+                    onOrOffDiv(value, data_div_value);
+                } else {
+                    addRightDivPic(value, a_id, a_Text, data_div_value);
+                    createDateDataBox(a_id);
+                }
+
+            } else {
+                input.prop("checked", true);
+                var showoff = "block";
+                if (validateDivExists(value, data_div_value)) {
+                    onOrOffDiv(value, data_div_value);
+
+                } else {
+                    addRightDivPic(value, a_id, a_Text, data_div_value);
+                    createDateDataBox(a_id);
+                }
+            }
+        }
+    });
+    $("#accordion_content_3").on("click", "a", function () {
+        //console.log(typeof accordion_index);
+        //console.log(accordion_index);
+        if ($(this)[0].className != "textbox-icon searchbox-button") {
+            var input = $(this).prev();
+            var value = input.val();
+            //console.log(input);
+            var data_div_value = input[0].getAttribute("data-value");
+            //console.log(data_div_value);
+            //console.log($(this))
+            var a_Text = $(this)[0].innerHTML;
+            //console.log(a_Text);
+            var a_id = $(this).attr("id")//a标签的id,也对应控制项目的tag
+            if (input.is(':checked')) {
+                input.prop("checked", false);
+                if (validateDivExists(value, data_div_value)) {
+                    onOrOffDiv(value, data_div_value);
+                } else {
+                    addRightDivPic(value, a_id, a_Text, data_div_value);
+                    createDateDataBox(a_id);
+                }
+
+            } else {
+                input.prop("checked", true);
+                var showoff = "block";
+                if (validateDivExists(value, data_div_value)) {
+                    onOrOffDiv(value, data_div_value);
+
+                } else {
+                    addRightDivPic(value, a_id, a_Text, data_div_value);
+                    createDateDataBox(a_id);
+                }
+            }
+        }
+    });
+    $("#accordion_content_4").on("click", "a", function () {
+        //console.log(typeof accordion_index);
+        //console.log(accordion_index);
+        if ($(this)[0].className != "textbox-icon searchbox-button") {
+            var input = $(this).prev();
+            var value = input.val();
+            //console.log(input);
+            var data_div_value = input[0].getAttribute("data-value");
+            //console.log(data_div_value);
+            //console.log($(this))
+            var a_Text = $(this)[0].innerHTML;
+            //console.log(a_Text);
+            var a_id = $(this).attr("id")//a标签的id,也对应控制项目的tag
+            if (input.is(':checked')) {
+                input.prop("checked", false);
+                if (validateDivExists(value, data_div_value)) {
+                    onOrOffDiv(value, data_div_value);
+                } else {
+                    addRightDivPic(value, a_id, a_Text, data_div_value);
+                    createDateDataBox(a_id);
+                }
+
+            } else {
+                input.prop("checked", true);
+                var showoff = "block";
+                if (validateDivExists(value, data_div_value)) {
+                    onOrOffDiv(value, data_div_value);
+
+                } else {
+                    addRightDivPic(value, a_id, a_Text, data_div_value);
+                    createDateDataBox(a_id);
+                }
+            }
+        }
+    });
+    $("#accordion_content_5").on("click", "a", function () {
+        //console.log(typeof accordion_index);
+        //console.log(accordion_index);
+        if ($(this)[0].className != "textbox-icon searchbox-button") {
+            var input = $(this).prev();
+            var value = input.val();
+            //console.log(input);
+            var data_div_value = input[0].getAttribute("data-value");
+            //console.log(data_div_value);
+            //console.log($(this))
+            var a_Text = $(this)[0].innerHTML;
+            //console.log(a_Text);
+            var a_id = $(this).attr("id")//a标签的id,也对应控制项目的tag
+            if (input.is(':checked')) {
+                input.prop("checked", false);
+                if (validateDivExists(value, data_div_value)) {
+                    onOrOffDiv(value, data_div_value);
+                } else {
+                    addRightDivPic(value, a_id, a_Text, data_div_value);
+                    createDateDataBox(a_id);
+                }
+
+            } else {
+                input.prop("checked", true);
+                var showoff = "block";
+                if (validateDivExists(value, data_div_value)) {
+                    onOrOffDiv(value, data_div_value);
+
+                } else {
+                    addRightDivPic(value, a_id, a_Text, data_div_value);
+                    createDateDataBox(a_id);
+                }
+            }
+        }
+    });
+    $("#accordion_content_6").on("click", "a", function () {
+        //console.log(typeof accordion_index);
+        //console.log(accordion_index);
+        if ($(this)[0].className != "textbox-icon searchbox-button") {
+            var input = $(this).prev();
+            var value = input.val();
+            //console.log(input);
+            var data_div_value = input[0].getAttribute("data-value");
+            //console.log(data_div_value);
+            //console.log($(this))
+            var a_Text = $(this)[0].innerHTML;
+            //console.log(a_Text);
+            var a_id = $(this).attr("id")//a标签的id,也对应控制项目的tag
+            if (input.is(':checked')) {
+                input.prop("checked", false);
+                if (validateDivExists(value, data_div_value)) {
+                    onOrOffDiv(value, data_div_value);
+                } else {
+                    addRightDivPic(value, a_id, a_Text, data_div_value);
+                    createDateDataBox(a_id);
+                }
+
+            } else {
+                input.prop("checked", true);
+                var showoff = "block";
+                if (validateDivExists(value, data_div_value)) {
+                    onOrOffDiv(value, data_div_value);
+
+                } else {
+                    addRightDivPic(value, a_id, a_Text, data_div_value);
+                    createDateDataBox(a_id);
+                }
+            }
+        }
+    });
+
+    //动态添加div
+    function addRightDivPic(index, a_id, a_Text, data_div_value) {
+        var pardiv = document.getElementById("bb"); //获取div的id
+        var div = document.createElement("div");// 在这里创建一个div标签
+        div.id = "target" + a_id;
+        div.className = "marginRight";
+        div.setAttribute("data-value", "input-div" + a_id);
+        div.style.display = "block";
+
+        var q_div = document.createElement("div");
+        q_div.className = "marginRightTop";
+        var q_p = document.createElement("p");
+        q_p.id = "click" + a_id;
+        var span_starttime = document.createElement("span");
+        span_starttime.innerHTML = "&nbsp;&nbsp;起始时间: &nbsp;&nbsp;";
+        q_p.appendChild(span_starttime);
+
+        var q_starttime_input = document.createElement("input");
+        q_starttime_input.id = "time" + a_id + "1";
+        q_starttime_input.name = "startTime";
+        q_starttime_input.style.width = "100px;";
+        q_starttime_input.style.height = "29px;";
+        q_starttime_input.value = "10/11/2012 2:3:56";
+        q_starttime_input.editable = "false";
+        q_p.appendChild(q_starttime_input);
+
+        var span_endtime = document.createElement("span");
+        span_endtime.innerHTML = "&nbsp;&nbsp;结束时间: &nbsp;&nbsp;";
+        q_p.appendChild(span_endtime);
+
+        var q_endtime_input = document.createElement("input");
+        q_endtime_input.id = "time" + a_id + 2;
+        q_endtime_input.name = "endTime";
+        q_endtime_input.style.width = "100px;";
+        q_endtime_input.style.height = "29px;";
+        q_endtime_input.value = "10/11/2012 2:23:56";
+        q_endtime_input.editable = "false";
+        q_p.appendChild(q_endtime_input);
+
+        //创建查询按钮
+        var button = document.createElement("button");
+        button.id = "button-" + a_id;
+        button.className = "eq_select_equipment_instance_confirm";
+        button.innerHTML = "查询";
+        q_p.appendChild(button);
+
+        q_div.appendChild(q_p);
+        div.appendChild(q_div);
+
+        var p_div = document.createElement("div");
+        p_div.className = "marginRightPic";
+        p_div.style.display = "block";
+        p_div.id = "pic" + a_id;
+        div.appendChild(p_div);
+        p_div.style.width = "100%;";
+        p_div.style.height = "200px!important;";
+        pardiv.appendChild(div);
+        clickButton = "#click" + a_id;
+        options = drawPic("pic" + a_id, a_id, a_Text);
+    }
+
+
+    //js创建日期框
+    function createDateDataBox(index) {
+        //console.log(index);
+        var time_id1 = "#time" + index + "1";
+        $(time_id1).datetimebox({
+            required: true,
+            setValue: getLocalTimeNow()
+        });
+
+        var time_id2 = "#time" + index + "2";
+        $(time_id2).datetimebox({
+            required: true,
+            setValue: getLocalTimeNow()
+        });
+    }
+
+    //获取当前时间2018-12-12 2:3:56
+    function getLocalTimeNow() {
+        var curr_time = new Date();
+        var strDate = curr_time.getFullYear() + "-";
+        strDate += curr_time.getMonth() + 1 + "-";
+        strDate += curr_time.getDate() + "-";
+        strDate += " " + curr_time.getHours() + ":";
+        strDate += curr_time.getMinutes() + ":";
+        strDate += curr_time.getSeconds();
+        return strDate;
+    }
+
+    //控制div的显示与隐藏
+    function onOrOffDiv(index, input_value) {
+        var pardiv = document.getElementById("bb"); //获取div的id
+        var nodes = pardiv.children;
+        //console.log("长度");
+        //console.log(nodes.length);
+        for (var i = 1; i <= nodes.length; i++) {
+            var display = nodes[i - 1].style.display;
+            var div_value = nodes[i - 1].getAttribute("data-value");
+            //console.log(div_value);
+            if (input_value === div_value && nodes[i - 1].style.display == "block") {
+                nodes[i - 1].style.display = "none";
+                break;
+            } else if (input_value === div_value && nodes[i - 1].style.display == "none") {
+                nodes[i - 1].style.display = "block";
+                break;
+            }
+        }
+
+    }
+
+    //验证当前div是否已经存在
+    function validateDivExists(index, input_value) {
+        var flag = false;
+        var pardiv = document.getElementById("bb"); //获取div的id
+        var nodes = pardiv.children;
+        for (var i = 1; i <= nodes.length; i++) {
+            var div_value = nodes[i - 1].getAttribute("data-value");
+            //console.log(div_value);
+            if (input_value === div_value) {
+                flag = true;
+                break;
+            }
+        }
+        return flag;
+    }
+
+    //绘图
+    var chartObject = {};//保存图实例对象
+    function drawPic(div_id, a_id, a_Text) {
+        /*对应的图标部分*/
+        //myChart = echarts.init(dom);
+        //console.log(chartObject);
+        Highcharts.setOptions({
+            lang: {
+                printChart: '打印图表',
+                downloadJPEG: '下载 JPEG 文件',
+                downloadPDF: '下载 PDF   文件',
+                downloadPNG: '下载 PNG  文件',
+                downloadSVG: '下载 SVG  文件',
+                downloadCSV: '下载 CSV  文件',
+                downloadXLS: '下载 XLS   文件'
+            },
+            navigation: {
+                buttonOptions: {
+                    height: 6
+                },
+                menuItemStyle: {
+                    padding: '2px 5px'
+                }
+            }
+        });
+        // 默认的导出菜单选项，是一个数组
+        var dafaultMenuItem = Highcharts.getOptions().exporting.buttons.contextButton.menuItems;
+        //console.log(dafaultMenuItem);
+        var options = {
+            credits: {
+                href: 'javascript:void(0)',
+                text: '中复神鹰'
+            },
+            exporting: {
+                filename: a_Text,
+                csv: {
+                    dateFormat: '%Y-%m-%d'
+                },
+                buttons: {
+                    contextButton: {
+                        // 自定义导出菜单项目及顺序
+                        menuItems: [
+                            dafaultMenuItem[0],//打印图标
+                            dafaultMenuItem[1],//分割线
+                            dafaultMenuItem[2],//打印PNG
+                            dafaultMenuItem[3],//打印JPEG
+                            dafaultMenuItem[4],//下载PDF
+                            dafaultMenuItem[5],//打印SVG
+                            dafaultMenuItem[6],//分割线
+                            dafaultMenuItem[7],//下载CSV
+                            dafaultMenuItem[8]//下载XLS
+                        ]
+                    }
+                }
+            },
+            title: {
+                align: 'left',
+                text: a_Text,
+                style: {
+                    fontSize: '15px'
+                }
+            },
+            scrollbar: {
+                enabled: true
+            },
+            xAxis: {
+                type: 'category',
+                dateTimeLabelFormats: {
+                    millisecond: '%H:%M:%S.%L',
+                    second: '%H:%M:%S',
+                    minute: '%H:%M',
+                    hour: '%H:%M',
+                    day: '%m-%d',
+                    week: '%m-%d',
+                    month: '%Y-%m',
+                    year: '%Y'
+                },
+                minRange: 15,
+                max: 15
+            },
+            yAxis: {
+                tickPositions: [0, 10, 20, 30, 40, 50], // 指定竖轴坐标点的值
+                labels: {
+                    overflow: 'justify'
+                },
+                lineWidth: 1
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    },
+                    turboThreshold: 0
+                }
+            },
+            series: [{
+                name: a_Text,
+            }],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+        }
+        // 图表初始化函数
+        var dom = document.getElementById(div_id);
+        var chart = Highcharts.chart(dom, options);
+        chartObject["chart" + a_id] = chart;
+        return options;
+    }
+
+    //监听点击查询按钮
+    var clicktag = 0;  //标志
+    $('#bb').on('click', 'button', function (params) {
+        if (clicktag === 0) {
+            clicktag = 1;
+            var label_tag = params.currentTarget.id;
+            var tag = label_tag.split("-");
+            var startTime = $("#time" + tag[1] + "1").datebox('getValue');
+            var endTime = $("#time" + tag[1] + "2").datebox('getValue');
+            //console.log("tag："+tag[1]+"     开始时间:"+startTime+"    借宿世家:"+entTime);
+            var datajson = {};
+            datajson.tag = tag[1];
+            datajson.startTime = startTime;
+            datajson.stopTime = endTime;
+            console.log(datajson);
+            drawPicAjax(tag[1], datajson);
+            //5秒后复位标志，可以进行再次点击会发出请求
+            setTimeout(function () {
+                clicktag = 0
+            }, 5000);
+        } else {
+            //console.log("哈哈，伤心");
+        }
+
+    });
+
+
+    function drawPicAjax(a_id, requestData) {
+        var a = document.getElementById(a_id);
+        var a_Text = a.innerHTML;
+        $.ajax({
+            url: "../../../dataQuery/find",
+            dataType: "json",    //返回的数据类型 json html 等
+            type: "POST", //请求方式 post get
+            data: requestData, //传递form的表单参数
+            success: function (result) {
+                if (result.success) {
+                    layer.msg(result.message);
+                    var values = [];
+                    for (var i =0;i<result.data["values"].length;i++){
+                        values.push(parseFloat(result.data["values"][i]));
+                    }
+                    chartObject["chart" + a_id].yAxis[0].update({
+                        tickPositions: 0,
+                    });
+                    chartObject["chart" + a_id].xAxis[0].update({
+                        categories: result.data["times"]
+                    });
+                    chartObject["chart" + a_id].series[0].update({
+                        data: values
+                    });
+                } else {
+                    layer.msg(result.message);
+                }
+            },
+            error: function () {
+                layer.msg("服务器未响应")
+            }
+        });
+
+    }
+</script>
+</body>
+</html>
